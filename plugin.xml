@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-save-address-book-contact" version="1.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>AddressBookPlugin</name>
+    <js-module name="AddressBookPlugin" src="www/AddressBookPlugin.js">
+        <clobbers target="AddressBookPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="AddressBookPlugin">
+                <param name="ios-package" value="AddressBookPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/AddressBookPlugin.swift" />
+    </platform>
+</plugin>
