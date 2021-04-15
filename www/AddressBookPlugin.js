@@ -1,5 +1,5 @@
 var exec = require('cordova/exec');
 
-exports.coolMethod = function (arg0, success, error) {
+exports.saveContact = function (arg0, success, error) {
     exec(success, error, 'AddressBookPlugin', 'saveContact', [arg0]);
 };
