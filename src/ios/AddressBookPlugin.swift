@@ -27,7 +27,7 @@ import ContactsUI
                     }
                     
                     let controller = CNContactViewController(forUnknownContact: contact)
-                    controller.contactStore = self.store
+                    controller.contactStore = CNContactStore()
                     controller.delegate = self
                     controller.allowsActions = true
                     controller.title = "Aggiungi Contatto"
