@@ -4,7 +4,6 @@ import ContactsUI
 @objc(AddressBookPlugin) class AddressBookPlugin : CDVPlugin, CNContactViewControllerDelegate , UIViewControllerTransitioningDelegate {
     // MARK: Properties
     var pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR)
-    let store = CNContactStore()
     
     @objc(saveContact:) func saveContact(_ command: CDVInvokedUrlCommand) {
         let contact = CNMutableContact()
@@ -26,14 +25,16 @@ import ContactsUI
                         }
                     }
                     
-                    let controller = CNContactViewController(forUnknownContact: contact)
-                    controller.contactStore = CNContactStore()
-                    controller.delegate = self
-                    controller.allowsActions = true
-                    controller.title = "Aggiungi Contatto"
-                    let navigationController = UINavigationController(rootViewController: controller)
-                    navigationController.setNavigationBarHidden(false, animated: true)
-                    self.viewController.present(navigationController, animated: true, completion: nil)
+                    DispatchQueue.main.async(execute: { () -> Void in
+                        let controller = CNContactViewController(forUnknownContact: contact)
+                        controller.contactStore = CNContactStore()
+                        controller.delegate = self
+                        controller.allowsActions = true
+                        controller.title = "Aggiungi Contatto"
+                        let navigationController = UINavigationController(rootViewController: controller)
+                        navigationController.setNavigationBarHidden(false, animated: true)
+                        self.viewController.present(navigationController, animated: true, completion: nil)
+                    })
                 }
             }
         }
@@ -56,7 +57,8 @@ import ContactsUI
         case .denied:
             self.showSettingsAlert(completionHandler)
         case .restricted, .notDetermined:
-            self.store.requestAccess(for: .contacts) { granted, error in
+            let store = CNContactStore()
+            store.requestAccess(for: .contacts) { granted, error in
                 if granted {
                     completionHandler(true)
                 } else {
