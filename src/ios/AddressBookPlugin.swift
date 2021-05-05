@@ -23,6 +23,11 @@ import ContactsUI
                             let workEmail = CNLabeledValue(label:CNLabelWork, value: email as NSString)
                             contact.emailAddresses = [workEmail]
                         }
+                        if let contactImage = value["CONTACT_IMAGE_IN_BASE_64"] as? String{
+                            let value = contactImage.replacingOccurrences(of: "data:image/png;base64,", with: "")
+                            let imageData = Data(base64Encoded: value, options: Data.Base64DecodingOptions.ignoreUnknownCharacters)!
+                            contact.imageData = imageData
+                        }
                     }
                     
                     DispatchQueue.main.async(execute: { () -> Void in
